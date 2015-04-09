@@ -3945,14 +3945,15 @@ static void l2cap_conf_rfc_get(struct sock *sk, void *rsp, int len)
 	while (len >= L2CAP_CONF_OPT_SIZE) {
 		len -= l2cap_get_conf_opt(&rsp, &type, &olen, &val);
 
-		if (type != L2CAP_CONF_RFC)
-			continue;
-
-		if (olen != sizeof(rfc))
+		switch (type) {
+		case L2CAP_CONF_RFC:
+			if (olen == sizeof(rfc))
+				memcpy(&rfc, (void *)val, olen);
 			break;
-
-		memcpy(&rfc, (void *)val, olen);
-		goto done;
+		case L2CAP_CONF_EXT_WINDOW:
+			txwin_ext = val;
+			break;
+		}
 	}
 
 	switch (rfc.mode) {

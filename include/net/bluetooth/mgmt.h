@@ -91,6 +91,12 @@ struct mgmt_cp_set_dev_class {
 	__u8 major;
 	__u8 minor;
 } __packed;
+
+#define MGMT_STATUS_NOT_POWERED		0x0f
+#define MGMT_STATUS_CANCELLED		0x10
+#define MGMT_STATUS_INVALID_INDEX	0x11
+#define MGMT_STATUS_RFKILLED		0x12
+
 #define MGMT_MAJOR_CLASS_MASK		0x1F
 #define MGMT_MAJOR_CLASS_LIMITED	0x20
 

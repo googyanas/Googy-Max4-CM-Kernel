@@ -876,9 +876,6 @@ int ping_recvmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 	sock_recv_timestamp(msg, sk, skb);
 
 	/* Copy the address and add cmsg data. */
-	if (family == AF_INET) {
-		sin = (struct sockaddr_in *) msg->msg_name;
-
 	if (msg->msg_name) {
 		struct sockaddr_in *sin = (struct sockaddr_in *)msg->msg_name;
 
@@ -887,7 +884,6 @@ int ping_recvmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 			sin->sin_addr.s_addr = ip_hdr(skb)->saddr;
 			memset(sin->sin_zero, 0, sizeof(sin->sin_zero));
 			*addr_len = sizeof(*sin);
-		}
 
 		if (isk->cmsg_flags)
 			ip_cmsg_recv(msg, skb);
